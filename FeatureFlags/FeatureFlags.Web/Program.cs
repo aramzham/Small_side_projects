@@ -1,10 +1,13 @@
 using FeatureFlags.Web;
 using Microsoft.FeatureManagement;
+using Microsoft.FeatureManagement.FeatureFilters;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddFeatureManagement(); // will look at FeatureManagement section by default
+builder.Services.AddFeatureManagement() // will look at FeatureManagement section by default
+    .AddFeatureFilter<PercentageFilter>(); // endpoint will work in 50% of calls
+// use can also use TargetingFilter, TimeWindowFilter etc.
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +41,17 @@ app.MapGet("/weatherforecast", async (IFeatureManager featureManager) =>
         })
         .ToArray();
 });
+
+app.MapGet("/weatherforecastslim", () =>
+{
+    return Enumerable.Range(1, 2).Select(index => new WeatherForecast
+        {
+            Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+            TemperatureC = Random.Shared.Next(-20, 55),
+            Summary = summaries[Random.Shared.Next(summaries.Length)]
+        })
+        .ToArray();
+}).WithFeature("weatherforecastslim");
 
 app.MapControllers();
 
