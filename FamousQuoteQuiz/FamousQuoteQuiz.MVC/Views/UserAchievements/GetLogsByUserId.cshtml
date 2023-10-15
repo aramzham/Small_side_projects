@@ -1,0 +1,43 @@
+﻿@model FamousQuoteQuiz.MVC.Models.ResponseModels.UserAchievementResponseModel
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Achievements of @Model.UserName @{
+                                        if (Model.Achievements.Any())
+                                        {
+                                            var numberOfCorrectAnswers = Model.Achievements.Count(x => x.IsAnsweredCorrectly);
+                                            var totalNumberOfAnswers = Model.Achievements.Count();
+                                            <span class="achievements-score">(@numberOfCorrectAnswers from @totalNumberOfAnswers)</span>
+                                        }
+                                    }</h2>
+<table class="table table-sm table-bordered table-dark">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Quote</th>
+        <th scope="col">Is answered correctly</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var achievement in Model.Achievements)
+        {
+            var yesOrNo = @achievement.IsAnsweredCorrectly ? "Yes" : "No";
+            var subQuote = @achievement.Quote.Length >= 60 ? $"{@achievement.Quote[..60]}..." : @achievement.Quote;
+            <tr>
+                <th scope="row">@achievement.Id</th>
+                <td class="quote-body">@subQuote</td>
+                <td>@yesOrNo</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+@{
+    if (!Model.Achievements.Any())
+    {
+        <span>This user has no answers yet.</span>
+    }
+}

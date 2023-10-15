@@ -1,0 +1,96 @@
+﻿@using FamousQuoteQuiz.Dal.Models
+@model FamousQuoteQuiz.MVC.Models.ViewModels.QuestionViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<div>
+    <div>
+        <label class="question-label">
+            Who Said it?
+        </label>
+        @{
+            <div class="quote-container">
+                <p>"@Model.Quote.Body"</p>
+            </div>
+            
+            @* <div class="quote-container"> *@
+            @*     <p>"@Model.Quote.Body"</p> *@
+            @* </div> *@
+    
+            if (@Model.QuestionType == QuestionType.Binary)
+            {
+                var firstAnswer = Model.Answers.First();
+                <div class="answer-option-wrapper">
+                    @firstAnswer.Name?
+                </div>
+                <div class="binary-answer-button">
+                    <button class="btn btn-success rounded" onclick="checkIfAnswerIsCorrect(true, @firstAnswer.Id);">Yes</button>
+                    <button class="btn btn-danger rounded" onclick="checkIfAnswerIsCorrect(false, @firstAnswer.Id);">No</button>
+                </div>
+            }
+            else
+            {
+                <div class="button-wrapper">
+                    @foreach (var answer in @Model.Answers)
+                    {
+                        <button class="btn rounded answer-button" onclick="checkIfAnswerIsCorrect(true, @answer.Id)">->@answer.Name</button>
+                    }
+                </div>
+            }
+        }
+    </div>
+    
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button onclick="nextQuote()" type="button" class="btn btn-secondary" data-dismiss="modal">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function nextQuote(){
+        $("#exampleModalCenter").modal("hide");
+        $(location).prop('href', '@Url.Action("Quote","Quote")');
+    }
+    
+    function checkIfAnswerIsCorrect(isYes, answerId){
+        let isMentionedAnswerCorrect = @Model.CorrectAnswer.Id === answerId;
+        let isCorrect = isYes === true ? isMentionedAnswerCorrect : !isMentionedAnswerCorrect;
+        
+        // is correct => show pop up for correct, else show is not correct
+        let modalText = isCorrect 
+            ? "Correct! The right answer is: @Model.CorrectAnswer.Name" 
+            : "Sorry, you are wrong! The right answer is: @Model.CorrectAnswer.Name";
+        let modalTitle = isCorrect ? "Success" : "Failed";
+            
+        // modal
+        $("#modalTitle").text(modalTitle);
+        $("#exampleModalCenter").modal("show");
+        $(".modal-body").text(modalText);
+        
+        // log
+        $.ajax('/userachievements/add', 
+        {
+            timeout: 500,     // timeout milliseconds
+            type:'POST',
+            data: {
+                    "QuoteId": @Model.Quote.Id,
+                    "IsAnsweredCorrectly": isCorrect,
+                    "UserId": @Model.UserId
+                  }
+        });
+    }
+</script>

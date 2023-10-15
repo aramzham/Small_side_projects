@@ -1,0 +1,6 @@
+﻿services:
+  radancy.api:
+    image: radancy.api
+    build:
+      context: .
+      dockerfile: Radancy.Api/Dockerfile

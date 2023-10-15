@@ -1,0 +1,24 @@
+﻿@page "/criterias"
+@using Mossad_Recruitment.Common.Models
+@inherits Base.CriteriasBase
+
+<h3>Criterias</h3>
+
+@if (Criterias is null)
+{
+    <RadzenProgressBar Value="100" ShowValue="false" Mode="ProgressBarMode.Indeterminate"/>
+}
+else
+{
+    <RadzenDataGrid @ref="CriteriaDataGrid" Data="@Criterias" TItem="Criteria">
+        <Columns>
+            <RadzenDataGridColumn TItem="Criteria" Property="TechnologyName" Title="Technology"/>
+            <RadzenDataGridColumn TItem="Criteria" Property="YearsOfExperience" Title="YOE">
+                <Template Context="data">
+                    <RadzenTextBox MaxLength="2" Change=@(args => OnChange(args, data)) Class="w-100"/>
+                </Template>
+            </RadzenDataGridColumn>
+        </Columns>
+    </RadzenDataGrid>
+    <RadzenButton style="width: 160px" Icon="save" BusyText="Saving ..." IsBusy=@IsSaveButtonBusy Click="OnSaveButtonClick" Text="Save"/>
+}

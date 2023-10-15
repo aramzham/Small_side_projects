@@ -1,0 +1,70 @@
+﻿@using FamousQuoteQuiz.Dal.Models
+
+@{
+    Layout = "_Layout";
+    var userId = Context.Request.Cookies.TryGetValue("userId", out var id) ? id : "1";
+    var userPreference = Context.Request.Cookies.TryGetValue("userPreference", out var up) ? up : "binary";
+    var questionType = Enum.TryParse<QuestionType>(userPreference, true, out var qt) ? qt : QuestionType.Binary;
+}
+
+<h2>Settings page</h2>
+<div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="binary">
+        <label class="form-check-label" for="binary">
+            Binary
+        </label>
+    </div>
+    <div class="form-check">
+        <input class="form-check-input" type="radio" name="flexRadioDefault" id="multipleChoice">
+        <label class="form-check-label" for="multipleChoice">
+            Multiple choice
+        </label>
+    </div>
+    <button onclick="save()" type="button" class="btn btn-info">Save</button>
+</div>
+<script>
+    function checkUserPreference(){
+        @{
+            var radioButtonId = questionType switch
+            {
+                QuestionType.Binary => "binary",
+                QuestionType.MultipleChoice => "multipleChoice",
+                _ => "binary"
+                };
+        }
+                
+        document.getElementById("@radioButtonId").setAttribute("checked", true);
+    }
+    
+    checkUserPreference();
+    
+    function save(){
+        let id = $("input:checked").attr('id');
+        let savedAlertFunction = function (data, status, xhr){
+                                    alert("Saved!");
+                                 };
+        if ("@radioButtonId" !== id){
+            let questionType = 0;
+            switch (id) {
+              case 'binary' : questionType = 0; break;
+              case 'multipleChoice' : questionType = 1; break;
+            }
+            
+            document.cookie = `userPreference=${questionType}`;
+            
+            $.ajax('/savesettings', {
+                timeout: 500,
+                type: 'POST',
+                data: {
+                    "UserId": @userId,
+                    "QuestionType" : questionType
+                },
+                success: savedAlertFunction
+            });
+        }
+        else{
+            savedAlertFunction();
+        }
+    }
+</script>

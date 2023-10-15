@@ -1,0 +1,136 @@
+﻿@model System.Collections.Generic.IEnumerable<FamousQuoteQuiz.Dal.Models.Quote>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>Quote management</h2>
+<button onclick="openModal(null)" class="btn btn-info">Add new quote</button>
+<table class="table table-hover">
+    <caption>List of quotes</caption>
+    <thead class="thead-dark">
+    <tr>
+        <th></th>
+        <th>#</th>
+        <th>Body</th>
+        <th>Author name</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var quote in Model)
+        {
+            <tr id="row-@quote.Id">
+                <td class="first-td">
+                    <img src="images/pencil.png" class="edit" onclick="openModal(@quote.Id)" alt="edit" title="Edit"/>
+                    <img src="images/delete.png" class="delete" onclick="deleteQuote(@quote.Id)" alt="delete" title="Delete"/>
+                </td>
+                <td>@quote.Id</td>
+                <td class="quote-body">@quote.Body</td>
+                <td>@quote.Author.Name</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="editQuoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button onclick="closeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group" id="idFormGroup">
+                        <label for="quoteId">Id: </label>
+                        <input type="text" readonly class="form-control-plaintext" id="quoteId">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteBodyInput">Body: </label>
+                        <textarea class="form-control" id="quoteBodyInput" aria-describedby="quoteBodyHelp"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="authorNameInput">Author name: </label>
+                        <input type="text" class="form-control" id="authorNameInput" aria-describedby="authorNameHelp">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveChanges()" type="button" class="saveEdit btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteQuote(id) {
+        $.ajax(`/quote/delete/${id}`, {
+            type: 'DELETE',
+            success: function (data, status, xhr){
+                $(`#row-${id}`).remove();
+                alert("Deleted!");
+            }
+        });
+    }
+
+    var isAddSelected = true;
+
+    function closeModal(){
+        $("#editQuoteModal").modal("hide");
+    }
+    
+    function openModal(id){
+        isAddSelected = !id;
+        $("#editQuoteModal").modal("show");
+        $("#modalTitle").text(isAddSelected ? "Add quote" : "Edit quote");
+        $("#idFormGroup").css("display", isAddSelected ? "none" : "block");
+        
+        let quoteId = $(`#row-${id} td:nth-child(2)`).text();
+        let quoteBody = $(`#row-${id} td:nth-child(3)`).text();
+        let authorName = $(`#row-${id} td:nth-child(4)`).text();
+        $("#quoteId").val(quoteId);
+        $("#quoteBodyInput").val(quoteBody);
+        $("#authorNameInput").val(authorName);
+    }
+    
+    function saveChanges(){
+        let data = {
+            "Body": $("#quoteBodyInput").val(),
+            "AuthorName": $("#authorNameInput").val()
+        };
+        let quoteId = $("#quoteId").val();
+        if (quoteId){
+            data.QuoteId = quoteId;
+        }
+        
+        $.ajax(`/quote/${(isAddSelected ? "add" : "update")}`, {
+                    type: isAddSelected ? "POST" : "PUT",
+                    data: data,
+                    success: function(data, status, xhr) {
+                        console.log(data);
+                        closeModal();
+                        alert("Saved!");
+                        if (isAddSelected){
+                            let newRow = `<tr class="row-${data.id}">
+                                                <td class="first-td">
+                                                    <img src="images/pencil.png" class="edit" onclick="openModal(${data.id})" alt="edit" title="Edit"></img>
+                                                    <img src="images/delete.png" class="delete" onclick="deleteQuote(${data.id})" alt="delete" title="Delete"></img>
+                                                </td>
+                                                <td>${data.id}</td>
+                                                <td class="quote-body">${data.body}</td>
+                                                <td>${data.author.name}</td>
+                                           </tr>`;
+                            $('table > tbody:last-child').append(newRow);
+                        }
+                        else {
+                            $(`#row-${data.id} td:nth-child(3)`).text(data.body);
+                            $(`#row-${data.id} td:nth-child(4)`).text(data.author.name);
+                        }
+                    }
+                });
+    }
+</script>

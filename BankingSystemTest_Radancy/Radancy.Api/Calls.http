@@ -1,0 +1,30 @@
+﻿POST https://localhost:7099/user
+
+###
+
+POST https://localhost:7099/account
+Content-Type: application/json
+
+{
+  "userId": "qv8OVx1aDd6"
+}
+
+###
+
+POST https://localhost:7099/account/deposit
+Content-Type: application/json
+
+{
+  "accountId":"LqZ0a2YVDpz",
+  "amount": 1000
+}
+
+###
+
+POST https://localhost:7099/account/withdraw
+Content-Type: application/json
+
+{
+  "accountId":"LqZ0a2YVDpz",
+  "amount": 200
+}

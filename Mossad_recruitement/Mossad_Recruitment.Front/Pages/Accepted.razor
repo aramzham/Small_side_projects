@@ -1,0 +1,13 @@
+﻿@page "/accepted"
+@inherits Base.AcceptedBase
+
+<h4>Accepted</h4>
+@if (@Candidates is null || !@Candidates.Any())
+{
+    <NoData />
+}
+else
+{
+    <RadzenListBox @bind-Value=@Candidates Data=@Candidates TextProperty="Name" ValueProperty="Id" Style="height:500px" Class="w-100" />
+}
+

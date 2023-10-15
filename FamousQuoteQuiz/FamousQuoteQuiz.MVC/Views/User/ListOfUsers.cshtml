@@ -1,0 +1,153 @@
+﻿@model System.Collections.Generic.IEnumerable<FamousQuoteQuiz.Dal.Models.User>
+
+@{
+    Layout = "_Layout";
+}
+
+<h2>User management</h2>
+<button onclick="openModal(null)" class="btn btn-info">Add new user</button>
+<table class="table table-hover">
+    <caption>List of users</caption>
+    <thead class="thead-dark">
+    <tr>
+        <th></th>
+        <th>#</th>
+        <th>Name</th>
+        <th>Prefered question type</th>
+        <th>Created at</th>
+    </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var user in Model)
+        {
+            var isAdmin = user.Name == "admin";
+            var rowColorClass = string.Empty;
+            var disabled = string.Empty;
+            if (isAdmin)
+            {
+                rowColorClass = "class=table-danger";
+                disabled = "disabled";
+            }
+            <tr @rowColorClass id="row-@user.Id">
+                <td class="first-td">
+                    <img src="images/pencil.png" class="edit" @disabled onclick="openModal(@user.Id)" alt="edit" title="Edit"/>
+                    <img src="images/delete.png" class="delete" @disabled onclick="deleteUser(@user.Id)" alt="delete" title="Delete"/>
+                </td>
+                <td>@user.Id</td>
+                <td><a href="/userachievements/@user.Id">@user.Name</a></td>
+                <td>@user.QuestionType.ToString()</td>
+                <td>@user.CreatedAt.ToString("s")</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>
+
+<div class="modal fade" id="editQuoteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button onclick="closeModal()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="form">
+                    <div class="form-group" id="idFormGroup">
+                        <label for="userId">Id: </label>
+                        <input type="text" readonly class="form-control-plaintext" id="userId" value="your id">
+                    </div>
+                    <div class="form-group">
+                        <label for="quoteBodyInput">Name: </label>
+                        <input type="text" class="form-control" id="quoteBodyInput" aria-describedby="userNameHelp" name="Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="questionTypeSelect">Question type: </label>
+                        <select class="form-control" id="questionTypeSelect" name="QuestionType">
+                            <option data-id="0">Binary</option>
+                            <option data-id="1">Multiple choice</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button onclick="saveChanges()" type="button" class="saveEdit btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function deleteUser(id) {
+        $.ajax(`/user/delete/${id}`, {
+            type: 'DELETE',
+            success: function (data, status, xhr){
+                $(`#row-${id}`).remove();
+                alert("Deleted!");
+            }
+        });
+    }
+
+    var isAddSelected = true;
+
+    function closeModal(){
+        $("#editUserModal").modal("hide");
+    }
+    
+    function openModal(id){
+        isAddSelected = !id;
+        $("#editUserModal").modal("show");
+        $("#modalTitle").text(isAddSelected ? "Add user" : "Edit user");
+        $("#idFormGroup").css("display", isAddSelected ? "none" : "block");
+        
+        let userId = $(`#row-${id} td:nth-child(2)`).text();
+        let userName = $(`#row-${id} td:nth-child(3)`).text();
+        let questionType = $(`#row-${id} td:nth-child(4)`).text();
+        $("#userId").val(userId);
+        $("#userNameInput").val(userName);
+        if (isAddSelected) {
+            $(`#questionTypeSelect option:nth-child(1)`).attr('selected', 'selected');
+        } else {
+            $(`#questionTypeSelect option:nth-child(${(questionType === 'Binary' ? 1 : 2)})`).attr('selected', 'selected');
+        }
+    }
+    
+    function saveChanges(){
+        let data = {
+            "QuestionType": $("#questionTypeSelect option:selected").attr('data-id'),
+            "Name": $("#userNameInput").val()
+        };
+        let userId = $("#userId").val();
+        if (userId){
+            data.UserId = userId;
+        }
+        
+        $.ajax(`/user/${(isAddSelected ? "add" : "update")}`, {
+                    type: isAddSelected ? "POST" : "PUT",
+                    data: data,
+                    success: function(data, status, xhr) {
+                        closeModal();
+                        alert("Saved!");
+                        if (isAddSelected){
+                            let newRow = `<tr class="row-${data.id}">
+                                                <td class="first-td">
+                                                    <img src="images/pencil.png" class="edit" onclick="openModal(${data.id})" alt="edit" title="Edit"></img>
+                                                    <img src="images/delete.png" class="delete" onclick="deleteUser(${data.id})" alt="delete" title="Delete"></img>
+                                                </td>
+                                                <td>${data.id}</td>
+                                                <td>${data.name}</td>
+                                                <td>${data.questionType}</td>
+                                                <td>${data.createdAt.split('.')[0]}</td>
+                                           </tr>`;
+                            $('table > tbody:last-child').append(newRow);
+                        }
+                        else {
+                            $(`#row-${data.id} td:nth-child(3)`).text(data.name);
+                            $(`#row-${data.id} td:nth-child(4)`).text(data.questionType);
+                        }
+                    }
+                });
+    }
+</script>

@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "FibonacciApi.Api": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "applicationUrl": "https://localhost:7053;http://localhost:5083",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

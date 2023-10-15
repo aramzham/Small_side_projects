@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30711.63
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTask.WebApi", "WalletTask.WebApi\WalletTask.WebApi.csproj", "{DEF219BF-7997-4D79-BDD9-4EF2567191B8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTask.DAL", "WalletTask.DAL\WalletTask.DAL.csproj", "{1A2D3CF3-A447-474A-BB68-40DC8A695264}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTask.BL", "WalletTask.BL\WalletTask.BL.csproj", "{2F8C843A-ED5F-428B-9EA2-0B467F4DDCC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WalletTask.Common", "WalletTask.Common\WalletTask.Common.csproj", "{2FBBD7A1-F3D8-4E56-94CD-0BC47F199425}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEF219BF-7997-4D79-BDD9-4EF2567191B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEF219BF-7997-4D79-BDD9-4EF2567191B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEF219BF-7997-4D79-BDD9-4EF2567191B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEF219BF-7997-4D79-BDD9-4EF2567191B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A2D3CF3-A447-474A-BB68-40DC8A695264}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A2D3CF3-A447-474A-BB68-40DC8A695264}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A2D3CF3-A447-474A-BB68-40DC8A695264}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A2D3CF3-A447-474A-BB68-40DC8A695264}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8C843A-ED5F-428B-9EA2-0B467F4DDCC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8C843A-ED5F-428B-9EA2-0B467F4DDCC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8C843A-ED5F-428B-9EA2-0B467F4DDCC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8C843A-ED5F-428B-9EA2-0B467F4DDCC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBBD7A1-F3D8-4E56-94CD-0BC47F199425}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBBD7A1-F3D8-4E56-94CD-0BC47F199425}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBBD7A1-F3D8-4E56-94CD-0BC47F199425}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBBD7A1-F3D8-4E56-94CD-0BC47F199425}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45785724-D5DB-4AD4-874A-0007318EFE58}
+	EndGlobalSection
+EndGlobal
