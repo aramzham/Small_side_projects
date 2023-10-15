@@ -5,7 +5,7 @@ using Microsoft.FeatureManagement.FeatureFilters;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddFeatureManagement() // will look at FeatureManagement section by default
+builder.Services.AddFeatureManagement(builder.Configuration.GetSection("FeatureFlags")) // will look at FeatureManagement section by default
     .AddFeatureFilter<PercentageFilter>(); // endpoint will work in 50% of calls
 // use can also use TargetingFilter, TimeWindowFilter etc.
 
