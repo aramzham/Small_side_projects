@@ -1,3 +1,4 @@
+using FeatureFlags.Web;
 using Microsoft.FeatureManagement;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,7 +29,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", async (IFeatureManager featureManager) =>
 {
-    var isTwoWeathersEnabled = await featureManager.IsEnabledAsync("TwoWeathers");
+    var isTwoWeathersEnabled = await featureManager.IsEnabledAsync(Flags.TwoWeathers);
     return Enumerable.Range(1, isTwoWeathersEnabled ? 2 : 5).Select(index => new WeatherForecast
         {
             Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -37,6 +38,8 @@ app.MapGet("/weatherforecast", async (IFeatureManager featureManager) =>
         })
         .ToArray();
 });
+
+app.MapControllers();
 
 app.Run();
 
