@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTN.Api", "RTN.Api\RTN.Api.csproj", "{F205A3B3-5488-4174-8C53-8FCBC9D2DABE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RTN.Client", "RTN.Client\RTN.Client.csproj", "{BEB8B1C3-F9A9-46AF-B7A1-38C674A15339}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F205A3B3-5488-4174-8C53-8FCBC9D2DABE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F205A3B3-5488-4174-8C53-8FCBC9D2DABE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F205A3B3-5488-4174-8C53-8FCBC9D2DABE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F205A3B3-5488-4174-8C53-8FCBC9D2DABE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEB8B1C3-F9A9-46AF-B7A1-38C674A15339}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB8B1C3-F9A9-46AF-B7A1-38C674A15339}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB8B1C3-F9A9-46AF-B7A1-38C674A15339}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB8B1C3-F9A9-46AF-B7A1-38C674A15339}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

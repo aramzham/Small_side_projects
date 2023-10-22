@@ -1,0 +1,42 @@
+﻿@page "/"
+
+@using Microsoft.AspNetCore.SignalR.Client
+@implements IAsyncDisposable
+
+<h1>Hello, world!</h1>
+
+<ul>
+    @foreach (var message in _messages)
+    {
+        <li>@message</li>
+    }
+</ul>
+
+@code {
+
+    private HubConnection? _hubConnection;
+    private readonly List<string> _messages = new();
+
+    protected override Task OnInitializedAsync()
+    {
+        _hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7226/notifications", // hardcoded
+                o => o.AccessTokenProvider = () => Task.FromResult<string?>("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjM0NEJGNTkwLTAwNzktNDkwRS04RDc0LTk1Mzk3ODc0RTEyNSIsInN1YiI6IjM0NEJGNTkwLTAwNzktNDkwRS04RDc0LTk1Mzk3ODc0RTEyNSIsImp0aSI6ImY2MGJhMTg4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzIyNiIsIm5iZiI6MTY5Nzk4NDIwNCwiZXhwIjoxNzA1OTMzMDA0LCJpYXQiOjE2OTc5ODQyMDYsImlzcyI6ImRvdG5ldC11c2VyLWp3dHMifQ.zf6Rz2eKKOOr3SpUgVX41RVezqqsrS48wROZaBQC1hQ")) // in a real world scenario you won't hardcode this here either and will get it from the authenticated user
+            .WithAutomaticReconnect()
+            .Build();
+
+        _hubConnection.On<string>("ReceiveNotification", message =>
+        {
+            _messages.Add(message);
+
+            InvokeAsync(StateHasChanged);
+        });
+
+        return _hubConnection.StartAsync();
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        return _hubConnection?.DisposeAsync() ?? ValueTask.CompletedTask;
+    }
+}
