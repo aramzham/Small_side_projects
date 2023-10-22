@@ -12,4 +12,5 @@
   <li><a href="https://github.com/aramzham/Small_side_projects/tree/main/UrlShortener">URL shortener</a></li>
   <li><a href="https://github.com/aramzham/Small_side_projects/tree/main/WalletApi">Wallet API</a></li>
   <li><a href="https://github.com/aramzham/Small_side_projects/tree/main/rate-limiter">Rate limiter</a></li>
+  <li><a href="https://github.com/aramzham/Small_side_projects/tree/main/Real_time_notifications_signalR">Real time notifications with SignalR and Blazor WASM</a></li>
 </ul>
