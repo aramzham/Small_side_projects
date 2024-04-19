@@ -1,30 +1,24 @@
-﻿string[] websites =
+﻿using System.Diagnostics;
+using EntainTasks.Task2;
+
+string[] websites =
 [
-    "https://www.gov.am/en/", "https://www.flashscore.com/", "https://www.youtube.com/", "https://www.temu.com/",
-    "https://www.goal.com/es"
+    "https://www.gov.am/en/", "https://www.flashscore.com/", "https://www.youtube.com/", "https://www.temu.com/", "https://www.goal.com/es"
 ];
 
-var client = new HttpClient();
-client.DefaultRequestHeaders.Add("user-agent",
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36 Edg/123.0.0.0");
+var sw = new Stopwatch();
+var webPageDownloader = new WebPageDownloader(websites);
 
-await Parallel.ForEachAsync(websites, async (url, token) =>
-{
-    try
-    {
-        var response = await client.GetAsync(url, token);
-        if (response.IsSuccessStatusCode)
-        {
-            var content = await response.Content.ReadAsStringAsync(token);
-            Console.WriteLine($"{url} - {content.Length}");
-        }
-        else
-        {
-            Console.WriteLine($"{url} - {response.StatusCode}");
-        }
-    }
-    catch (Exception e)
-    {
-        Console.WriteLine($"{url} - failed with [{e.Message}]");
-    }
-});
+sw.Start();
+await webPageDownloader.DownloadWebPages1();
+Console.WriteLine($"Executed DownloadWebPages1 in {sw.ElapsedMilliseconds}ms ---------------------");
+
+sw.Restart();
+await webPageDownloader.DownloadWebPages2();
+Console.WriteLine($"Executed DownloadWebPages2 in {sw.ElapsedMilliseconds}ms ---------------------");
+
+sw.Restart();
+await webPageDownloader.DownloadWebPages3();
+Console.WriteLine($"Executed DownloadWebPages3 in {sw.ElapsedMilliseconds}ms ---------------------");
+
+sw.Stop();
