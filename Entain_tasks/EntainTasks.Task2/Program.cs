@@ -7,7 +7,7 @@ string[] websites =
 ];
 
 var sw = new Stopwatch();
-var webPageDownloader = new WebPageDownloader(websites);
+using var webPageDownloader = new WebPageDownloader(websites);
 
 sw.Start();
 await webPageDownloader.DownloadWebPages1();
