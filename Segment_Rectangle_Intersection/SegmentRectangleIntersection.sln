@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRI.Api", "SRI.Api\SRI.Api.csproj", "{4271C947-9864-4983-984B-E014E0DC5C76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRI.Persistance", "SRI.Persistance\SRI.Persistance.csproj", "{60FD5739-AA45-4091-8535-6177C3C97F7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SRI.Common", "SRI.Common\SRI.Common.csproj", "{B140D0FA-25B2-402F-B7B6-8AFB5D70D50C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4271C947-9864-4983-984B-E014E0DC5C76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4271C947-9864-4983-984B-E014E0DC5C76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4271C947-9864-4983-984B-E014E0DC5C76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4271C947-9864-4983-984B-E014E0DC5C76}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60FD5739-AA45-4091-8535-6177C3C97F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60FD5739-AA45-4091-8535-6177C3C97F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60FD5739-AA45-4091-8535-6177C3C97F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60FD5739-AA45-4091-8535-6177C3C97F7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B140D0FA-25B2-402F-B7B6-8AFB5D70D50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B140D0FA-25B2-402F-B7B6-8AFB5D70D50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B140D0FA-25B2-402F-B7B6-8AFB5D70D50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B140D0FA-25B2-402F-B7B6-8AFB5D70D50C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
